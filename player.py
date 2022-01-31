@@ -1,4 +1,6 @@
 from tkinter import *
+import pygame
+
 
 root = Tk()
 root.title('Music Player')
