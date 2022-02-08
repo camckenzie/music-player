@@ -1,18 +1,47 @@
+import time
 from tkinter import *
 import pygame
 from tkinter import filedialog
+from mutagen.mp3 import MP3
 
 
 root = Tk()
 root.title('Music Player')
 root.iconbitmap('images/dj.ico')
-root.geometry('500x300')
+root.geometry('500x350')
 
 # Initialize Pygame Mixer
 pygame.mixer.init()
 
 
-# Add song function
+def runtime():
+    '''Grab song length time info'''
+    # Grab current song elapsed time
+    current_time = pygame.mixer.music.get_pos() / 1000
+
+    # convert to time format
+    converted_current_time = time.strftime('%M:%S', time.gmtime(current_time))
+
+    # Below 3 lines are from 'next' function
+    # Get currently playing song
+    #current_song = song_box.curselection()
+    song = song_box.get(ACTIVE)
+    song = f'C:/Users/Chris/Documents/GitHub/music-player/music/{song}.mp3'
+    # Load song with Mutagen
+    song_mut = MP3(song)
+    # Get song length
+    song_length = song_mut.info.length
+    # convert to time format
+    converted_song_length = time.strftime('%M:%S', time.gmtime(song_length))
+
+    # Output time to status bar
+    status_bar.config(
+        text=f'Time Elapsed: {converted_current_time} of {converted_song_length} ')
+
+    # calls runtime function after every 1000ms (1 second)
+    status_bar.after(1000, runtime)
+
+
 def add_song():
     '''Add song function'''
 
@@ -51,12 +80,18 @@ def play():
     pygame.mixer.music.load(song)
     pygame.mixer.music.play(loops=0)
 
+    # Call runtime function to get time
+    runtime()
+
 
 def stop():
     '''Stops currently playing song'''
 
     pygame.mixer.music.stop()
     song_box.selection_clear(ACTIVE)
+
+    # Clear the status bar
+    status_bar.config(text='')
 
 
 def next():
@@ -186,5 +221,11 @@ remove_song_menu.add_command(
     label='Delete A Song From Playlist', command=delete)
 remove_song_menu.add_command(
     label='Delete All Songs From Playlist', command=delete_all)
+
+# Create status bar
+# relief = outlline, border, anchor decides where text will be (right side)
+status_bar = Label(root, text='', bd=1, relief=GROOVE, anchor=E)
+# fill=x means it will fill all of x axis, side determines it will be at bottom, ipady pushes text down a little
+status_bar.pack(fill=X, side=BOTTOM, ipady=2)
 
 root.mainloop()
