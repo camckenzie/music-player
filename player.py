@@ -4,28 +4,18 @@ from xml.sax import SAXNotSupportedException
 import pygame
 from tkinter import filedialog
 from mutagen.mp3 import MP3
-<<<<<<< HEAD
 import tkinter.ttk as ttk
-=======
-
->>>>>>> e6be40b86c4c36019061e62114e24f2a386d1d11
 
 root = Tk()
 root.title('Music Player')
 root.iconbitmap('images/dj.ico')
-<<<<<<< HEAD
 root.geometry('500x400')
-=======
-root.geometry('500x350')
-
->>>>>>> e6be40b86c4c36019061e62114e24f2a386d1d11
 # Initialize Pygame Mixer
 pygame.mixer.init()
 
 
 def runtime():
     '''Grab song length time info'''
-<<<<<<< HEAD
     if stopped:
         # Stops slider time running at twice the speed
         return
@@ -34,11 +24,6 @@ def runtime():
 
     # throw up temp label to get data
     #slider_label.config(text=f'Slider: {int(my_slider.get())} and Song Pos: {int(current_time)}')
-=======
-    # Grab current song elapsed time
-    current_time = pygame.mixer.music.get_pos() / 1000
-
->>>>>>> e6be40b86c4c36019061e62114e24f2a386d1d11
     # convert to time format
     converted_current_time = time.strftime('%M:%S', time.gmtime(current_time))
 
@@ -50,7 +35,6 @@ def runtime():
     # Load song with Mutagen
     song_mut = MP3(song)
     # Get song length
-<<<<<<< HEAD
     global song_length
     song_length = song_mut.info.length
     # convert to time format
@@ -94,15 +78,6 @@ def runtime():
     # my_slider.config(value=int(current_time))
     
 
-=======
-    song_length = song_mut.info.length
-    # convert to time format
-    converted_song_length = time.strftime('%M:%S', time.gmtime(song_length))
-
-    # Output time to status bar
-    status_bar.config(
-        text=f'Time Elapsed: {converted_current_time} of {converted_song_length} ')
->>>>>>> e6be40b86c4c36019061e62114e24f2a386d1d11
 
     # calls runtime function after every 1000ms (1 second)
     status_bar.after(1000, runtime)
@@ -150,7 +125,6 @@ def play():
     # Call runtime function to get time
     runtime()
 
-<<<<<<< HEAD
     # Update slider to position
     # slider_postion = int(song_length)
     # my_slider.config(to=slider_postion, value=0)
@@ -160,9 +134,6 @@ def play():
     
 global stopped
 stopped = False
-=======
-
->>>>>>> e6be40b86c4c36019061e62114e24f2a386d1d11
 def stop():
     '''Stops currently playing song'''
     # Reset Slider and Status bar
@@ -174,13 +145,10 @@ def stop():
 
     # Clear the status bar
     status_bar.config(text='')
-<<<<<<< HEAD
     
     # Set stop variable to true
     global stopped
     stopped = True
-=======
->>>>>>> e6be40b86c4c36019061e62114e24f2a386d1d11
 
 
 def next():
